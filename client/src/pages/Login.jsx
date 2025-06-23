@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import assets from '../assets/assets'
 import { AuthContext } from '../../context/authcontext'
 import { useNavigate } from 'react-router-dom'
@@ -16,7 +16,7 @@ const Login = () => {
   const [isDataSubmitted, setIsDataSubmitted] = useState(false)
 
 
-  const {login} = useContext(AuthContext)
+  const {login, authUser} = useContext(AuthContext)
 
 
   const onSubmitHandler = async (event)=>{
@@ -28,11 +28,22 @@ const Login = () => {
     }
     try {
       await login(currState === 'Sign up' ? 'signup' : 'login',{fullName,email,password,bio})
-      navigate('/')
+      
     } catch (error) {
       console.error( error.message)
     }
   }
+
+ 
+// ...
+
+useEffect(() => {
+  console.log(authUser);
+  if (authUser) {
+    navigate('/')
+  }
+}, [authUser])
+
 
   return (
     <div className='min-h-screen bg-cover bg-center flex items-center justify-center gap-8
