@@ -21,13 +21,15 @@ export const AuthProvider = ({children})=>{
     const checkAuth = async()=>{
         try {
             const {data} = await axios.get('/api/auth/check')
+            
             if(data.success){
                 
                 setAuthUser(data.data)
                 connectSocket(data.data)
             }
         } catch (error) {
-            toast.error(error.message)
+            
+            console.log(error.message);
         }
     }
 
@@ -98,7 +100,7 @@ export const AuthProvider = ({children})=>{
             axios.defaults.headers.common["token"] = token
         }
         checkAuth()
-    },[])
+    },[token])
 
     const value = {
         axios,
